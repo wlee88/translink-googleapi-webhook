@@ -12,7 +12,9 @@ var options = {
 };
 
 var speechHelper = (busDataObject) => {
-    return `${busDataObject.busNumber} in ${busDataObject.arrivingIn} Minutes`;
+    // so google voice says the bus number better.. personal preference
+    var busNumberWithSpaces = busDataObject.busNumber.split('').join(' ');
+    return `${busNumberWithSpaces} in ${busDataObject.arrivingIn} Minutes`;
 }
 
 var compareBusNumbers = (bus1,bus2) =>{
