@@ -10,13 +10,13 @@ var extractInfo = (row) => {
     }
 };
 
-var formatBusData = (data, limit = 3)=> {
+var formatBusData = (data)=> {
 	var $ = cheerio.load(data);
     var busData = [];
     $(".clickable-row").each(function(){
       busData.push(extractInfo($(this).attr("aria-label")));
     })
-    return busData.splice(0,limit);
+    return busData;
 }
 
 module.exports = formatBusData;
