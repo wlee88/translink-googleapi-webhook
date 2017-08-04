@@ -14,7 +14,8 @@ var options = {
 var speechHelper = (busDataObject) => {
     // so google voice says the bus number better.. personal preference
     var busNumberWithSpaces = busDataObject.busNumber.split('').join(' ');
-    return `${busNumberWithSpaces} in ${busDataObject.arrivingIn} Minutes`;
+    var arrivingInIsATime = busDataObject.arrivingIn.includes(".");
+    return `${busNumberWithSpaces} ${ arrivingInIsATime ? "at" : "in" } ${busDataObject.arrivingIn} ${arrivingInIsATime ? "" : "minutes" }`;
 }
 
 var compareBusNumbers = (bus1,bus2) =>{
