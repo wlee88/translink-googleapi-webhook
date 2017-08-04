@@ -24,13 +24,15 @@ restService.post('/echo', function(req, res) {
     busData(options)
     .then(function(data){
         var busData = busDataFormatter(data);
-        var speech = `There is a ${busData.busNumber} arriving in ${busData.arrivingIn} minutes`;
+        console.log(busData);
+        var speech = "There is a " + busData[0].busNumber + " arriving in "
+        + busData[0].arrivingIn + " minutes";
         return res.json({
             speech: speech,
             displayText: speech,
             source: 'webhook-echo-sample'
         });
-    })
+    });
 });
 
 restService.listen((process.env.PORT || 8000), function() {
