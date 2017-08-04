@@ -11,8 +11,17 @@ var options = {
     busStopCode: '000827'
 };
 
+var speechHelper = (busDataObject) => {
+    return `${busDataObject.busNumber} in ${busDataObject.arrivingIn} Minutes`;
+}
 
+var compareBusNumbers = (bus1,bus2) =>{
+    return bus1.busNumber == bus2.busNumber;
+}
 
+var displayTheWordAnother = (busData) => {
+    return (compareBusNumbers(busData[0], busData[1])) ? "another" : "a"
+}
 
 restService.use(bodyParser.urlencoded({
     extended: true
@@ -24,9 +33,8 @@ restService.post('/echo', function(req, res) {
     busData(options)
     .then(function(data){
         var busData = busDataFormatter(data);
-        console.log(busData);
-        var speech = "There is a " + busData[0].busNumber + " arriving in "
-        + busData[0].arrivingIn + " minutes";
+        
+        var speech = `There is a ${speechHelper(busData[0])}, followed by ${displayTheWordAnother(busData)} ${speechHelper(busData[1])}`;
         return res.json({
             speech: speech,
             displayText: speech,
