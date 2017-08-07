@@ -7,9 +7,7 @@ const restService = express();
 
 const busData = require('./bus-data');
 const busDataFormatter = require("./bus-data-formatter");
-var options = {
-    busStopCode: '000827'
-};
+const options = require('./options');
 
 var speechHelper = (busDataObject) => {
     // so google voice says the bus number better.. personal preference
