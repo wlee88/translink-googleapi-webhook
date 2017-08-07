@@ -1,22 +1,20 @@
-# Webhook-and-API.AI-Sample - Echo your text
+# Private Google Voice Local Bus Stop app
 
-A very simple step by step, 11:06 minutes demo (see video at the end of read me) of implementing an echo service using webhook. Whatever user asks Google Assistant will be sent to your API and then same text will be sent back as speech text.
+This is a webhook to be used with Google Home/Assistant. 
+It will always respond with the same bus stop times at the moment.
 
-This simple app will help you understand
-- How to write an API in node
-- How to integrate your node JS app with API.AI as webhook
+Only available for Translink Brisbane.
 
 # Deploy to:
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 # How it works?
+- *Important* Insert your own bus stop code inside options.json.
 - Push this app to Heroku
-- Test the API https://webhook-echo-sample.herokuapp.com/echo - use www.hurl.it to test it
+- Test the API - use www.hurl.it to test it
 
 Open API.AI portal - https://api.ai
 - Create an account and login
+- Create an application within API.AI with the voice recognition you want
 
-# Video
-Watch this video to learn the steps to create sample application.
-
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/6TQdwzztltc/0.jpg)](https://www.youtube.com/watch?v=6TQdwzztltc)
+(Working as of 7/8/2017) - to create a persisting test session that is private to you follow instructions [here](https://stackoverflow.com/questions/41088596/make-google-actions-development-project-preview-persist-longer/41205026#41205026)
