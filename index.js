@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const restService = express();
 
 const translinkData = require('./translink-data');
-const busDataFormatter = require("./bus-data-formatter");
+const translinkDataFormatter = require("./translink-data-formatter");
 const options = require('./options');
 
 var speechHelper = (busDataObject) => {
@@ -30,13 +30,13 @@ restService.use(bodyParser.urlencoded({
 
 restService.use(bodyParser.json());
 
-restService.post('/train', function(req, res) {
+restService.post('/bus', function(req, res) {
     options.stopCode = options.busStopCode;
     options.direction = options.busDirection;
     translinkData(options)
         .then(function(data){
             try {
-                var busData = busDataFormatter(data);
+                var busData = translinkDataFormatter(data);
                 if (busData.length == 0) {
                     speech = "Sorry there are no busses at the moment";
                 }
@@ -69,7 +69,7 @@ restService.post('/train', function(req, res) {
     translinkData(options)
         .then(function(data){
             try {
-                var busData = busDataFormatter(data);
+                var busData = translinkDataFormatter(data);
                 if (busData.length == 0) {
                     speech = "Sorry there are no trains at the moment";
                 }

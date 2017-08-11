@@ -10,7 +10,7 @@ var extractInfo = (row) => {
     }
 };
 
-var formatBusData = (data)=> {
+var formatTranslinkData = (data)=> {
 	var $ = cheerio.load(data);
     var busData = [];
     $(".clickable-row").each(function(){
@@ -19,4 +19,4 @@ var formatBusData = (data)=> {
     return busData;
 }
 
-module.exports = formatBusData;
+module.exports = formatTranslinkData;
