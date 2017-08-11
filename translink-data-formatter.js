@@ -5,7 +5,7 @@ var extractInfo = (row) => {
     let infoArray = row.split(" ",4);
 
     return {
-        busNumber: infoArray[0],
+        service: infoArray[0],
         arrivingIn: infoArray[2]
     }
 };

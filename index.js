@@ -7,6 +7,8 @@ const restService = express();
 
 const translinkData = require('./translink-data');
 const translinkDataFormatter = require("./translink-data-formatter");
+const translinkTrainDataFormatter = require("./translink-train-data-formatter");
+
 const options = require('./options');
 
 var speechHelper = (busDataObject) => {
@@ -37,6 +39,7 @@ restService.post('/bus', function(req, res) {
         .then(function(data){
             try {
                 var busData = translinkDataFormatter(data);
+                var speech = "";
                 if (busData.length == 0) {
                     speech = "Sorry there are no busses at the moment";
                 }
@@ -44,7 +47,7 @@ restService.post('/bus', function(req, res) {
                     speech = `There is a ${speechHelper(busData[0])}`
                 }
                 else {
-                    var speech = `There is a ${speechHelper(busData[0])}, followed by ${displayTheWordAnother(busData)} ${speechHelper(busData[1])}`;
+                    speech = `There is a ${speechHelper(busData[0])}, followed by ${displayTheWordAnother(busData)} ${speechHelper(busData[1])}, then a ${speechHelper(busData[2])}`;
                 }
                 return res.json({
                     speech: speech,
@@ -53,10 +56,9 @@ restService.post('/bus', function(req, res) {
                 });
             }
             catch (err){
-                var speech = err.message;
                 return res.json({
-                    speech: speech,
-                    displayText: speech,
+                    speech: err.message,
+                    displayText: err.message,
                     source: 'webhook-echo-sample'
                 });
             }
@@ -69,15 +71,15 @@ restService.post('/train', function(req, res) {
     translinkData(options)
         .then(function(data){
             try {
-                var busData = translinkDataFormatter(data);
-                if (busData.length == 0) {
+                var trainData = translinkTrainDataFormatter(data);
+                if (trainData.length == 0) {
                     speech = "Sorry there are no trains at the moment";
                 }
-                else if(busData.length < 2) {
-                    speech = `There is a ${speechHelper(busData[0])}`
+                else if(trainData.length < 2) {
+                    speech = `There is a ${trainData[0].service} departing at ${trainData[0].arrivingIn}`
                 }
                 else {
-                    var speech = `There is a ${speechHelper(busData[0])}, followed by ${displayTheWordAnother(busData)} ${speechHelper(busData[1])}`;
+                    var speech = `There is a ${trainData[0].service} departing in ${trainData[0].arrivingIn} minutes, followed by ${trainData[1].service} departing in ${trainData[1].arrivingIn} minutes followed by ${trainData[2].service} departing in ${trainData[2].arrivingIn} minutes`;
                 }
                 return res.json({
                     speech: speech,
@@ -87,6 +89,7 @@ restService.post('/train', function(req, res) {
             }
             catch (err){
                 var speech = err.message;
+                console.log(err);
                 return res.json({
                     speech: speech,
                     displayText: speech,
