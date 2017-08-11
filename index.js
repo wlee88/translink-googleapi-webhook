@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 
 const restService = express();
 
-const busData = require('./bus-data');
+const translinkData = require('./translink-data');
 const busDataFormatter = require("./bus-data-formatter");
 const options = require('./options');
 
@@ -30,10 +30,10 @@ restService.use(bodyParser.urlencoded({
 
 restService.use(bodyParser.json());
 
-restService.post('/echo', function(req, res) {
+restService.post('/train', function(req, res) {
     options.stopCode = options.busStopCode;
     options.direction = options.busDirection;
-    busData(options)
+    translinkData(options)
         .then(function(data){
             try {
                 var busData = busDataFormatter(data);
@@ -66,7 +66,7 @@ restService.post('/echo', function(req, res) {
 restService.post('/train', function(req, res) {
     options.stopCode = options.trainStopCode;
     options.direction = options.trainDirection;
-    busData(options)
+    translinkData(options)
         .then(function(data){
             try {
                 var busData = busDataFormatter(data);

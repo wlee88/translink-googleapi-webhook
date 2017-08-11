@@ -11,7 +11,6 @@ var extractInfo = (row) => {
 };
 
 var formatBusData = (data)=> {
-    console.log(data);
 	var $ = cheerio.load(data);
     var busData = [];
     $(".clickable-row").each(function(){
