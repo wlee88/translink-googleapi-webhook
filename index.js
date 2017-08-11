@@ -31,34 +31,69 @@ restService.use(bodyParser.urlencoded({
 restService.use(bodyParser.json());
 
 restService.post('/echo', function(req, res) {
+    options.stopCode = options.busStopCode;
+    options.direction = options.busDirection;
     busData(options)
-    .then(function(data){
-        try {
-            var busData = busDataFormatter(data);
-            if (busData.length == 0) {
-                speech = "Sorry there are no busses at the moment";
+        .then(function(data){
+            try {
+                var busData = busDataFormatter(data);
+                if (busData.length == 0) {
+                    speech = "Sorry there are no busses at the moment";
+                }
+                else if(busData.length < 2) {
+                    speech = `There is a ${speechHelper(busData[0])}`
+                }
+                else {
+                    var speech = `There is a ${speechHelper(busData[0])}, followed by ${displayTheWordAnother(busData)} ${speechHelper(busData[1])}`;
+                }
+                return res.json({
+                    speech: speech,
+                    displayText: speech,
+                    source: 'webhook-echo-sample'
+                });
             }
-            else if(busData.length < 2) {
-                speech = `There is a ${speechHelper(busData[0])}`
+            catch (err){
+                var speech = err.message;
+                return res.json({
+                    speech: speech,
+                    displayText: speech,
+                    source: 'webhook-echo-sample'
+                });
             }
-            else {
-                var speech = `There is a ${speechHelper(busData[0])}, followed by ${displayTheWordAnother(busData)} ${speechHelper(busData[1])}`;
+        });
+});
+
+restService.post('/train', function(req, res) {
+    options.stopCode = options.trainStopCode;
+    options.direction = options.trainDirection;
+    busData(options)
+        .then(function(data){
+            try {
+                var busData = busDataFormatter(data);
+                if (busData.length == 0) {
+                    speech = "Sorry there are no trains at the moment";
+                }
+                else if(busData.length < 2) {
+                    speech = `There is a ${speechHelper(busData[0])}`
+                }
+                else {
+                    var speech = `There is a ${speechHelper(busData[0])}, followed by ${displayTheWordAnother(busData)} ${speechHelper(busData[1])}`;
+                }
+                return res.json({
+                    speech: speech,
+                    displayText: speech,
+                    source: 'webhook-echo-sample'
+                });
             }
-            return res.json({
-                speech: speech,
-                displayText: speech,
-                source: 'webhook-echo-sample'
-            });
-        }
-        catch (err){
-            var speech = err.message;
-            return res.json({
-                speech: speech,
-                displayText: speech,
-                source: 'webhook-echo-sample'
-            });
-        }
-    });
+            catch (err){
+                var speech = err.message;
+                return res.json({
+                    speech: speech,
+                    displayText: speech,
+                    source: 'webhook-echo-sample'
+                });
+            }
+        });
 });
 
 restService.listen((process.env.PORT || 8000), function() {

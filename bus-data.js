@@ -11,7 +11,7 @@ var html = function(options) {
         url: 'https://jp.translink.com.au//plan-your-journey/stops/stopinformationupdate',
         method: 'POST',
         headers: headers,
-        form: {'id': options.busStopCode, 'kind': 'realtime'}
+        form: {'id': options.stopCode, 'kind': 'realtime', 'direction' : options.direction}
     }
 
     var options = Object.assign(defaults, options)
