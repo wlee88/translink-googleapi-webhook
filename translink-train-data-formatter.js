@@ -1,4 +1,5 @@
 const cheerio = require('cheerio');
+const _ = require('underscore');
 
 var extractInfo = (arrivingIn, service) => {
     if (service == '') {
@@ -10,7 +11,7 @@ var extractInfo = (arrivingIn, service) => {
     }
     return {
         service: service,
-        arrivingIn: arrivingIn
+        arrivingIn: arrivingIn.toLowerCase()
     }
 };
 
@@ -20,7 +21,7 @@ var formatTranslinkTrainData = (data)=> {
     $(".clickable-row").each(function(){
       trainData.push(extractInfo($(this).find(".depart-estimate .countdown").text(), $(this).find(".service-name").text()));
     });
-    return trainData;
+    return _.reject(trainData, function(data) { return data.arrivingIn == 'unknown' || data.arrivingIn ==  'skipped'});
 }
 
 module.exports = formatTranslinkTrainData;
